@@ -39,6 +39,14 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(m_driverController.getY(Hand.kLeft),m_driverController.getX(Hand.kLeft));
 }
 
+    public void arcadeDrive(double y, double x) {
+        arcadeDrive(y, x, false);
+    }
+
+    public void arcadeDrive(double y, double x, boolean quickTurn) {
+        m_drive.arcadeDrive(y, x, quickTurn);
+    }
+
   public void stop() {
     m_drive.arcadeDrive(0, 0);
   }
