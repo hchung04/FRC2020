@@ -13,7 +13,11 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.BallSucc;
+ import frc.robot.commands.rotateCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.BallIntakeSubsystem;
+ import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -33,8 +37,12 @@ public class RobotContainer {
 
   public static final XboxController m_driverController = new XboxController(0);
 
+  private final BallIntakeSubsystem intakeSubsystem = new BallIntakeSubsystem();
 
+  private final BallSucc intakeCommand = new BallSucc(intakeSubsystem);
 
+ private final ControlPanelSubsystem panelSubsytem = new ControlPanelSubsystem();
+  private final rotateCommand panelCommand= new rotateCommand(panelSubsytem);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -52,8 +60,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    //new JoystickButton(m_driverController, XboxController.Button.kStickLeft.value).whenActive(driveCommand);
-    
+    new JoystickButton(m_driverController, XboxController.Button.kX.value).whileHeld(intakeCommand);
+   new JoystickButton(m_driverController, XboxController.Button.kA.value).whileHeld(panelCommand);
   }
 
 
