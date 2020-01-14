@@ -6,24 +6,19 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.Encoder;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ControlPanelSubsystem extends SubsystemBase {
   /**
    * Creates control panel subsystem
    */
-  private final SpeedController panelController = new PWMVictorSPX(6);
+  private final SpeedController panelController = new PWMVictorSPX(5);
 
   //INSERT THE TWO PORTS HERE that the encoder uses
-  private final Encoder m_Encoder = new Encoder(2,3,false);
+  private final Encoder m_Encoder = new Encoder(2,3,true);
   
   
  
@@ -55,7 +50,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
    m_Encoder.reset();
   }
 public boolean hasDoneRevolutions(){
-    if(m_Encoder.getDistance() >= inches){
+    if(Math.abs(m_Encoder.getDistance()) >= inches){
         return true;
     }
     return false;
