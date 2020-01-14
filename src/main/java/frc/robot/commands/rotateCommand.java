@@ -31,14 +31,15 @@ public class rotateCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+     //will rotate for one revolution
+     m_control.rotate(50);
+     System.out.println("DISTANCE: " + m_control.findDistance());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      //will rotate for one revolution
-      m_control.rotate(500);
-      System.out.print("DISTANCE: " + m_control.findDistance());
+      
   }
 
   // Called once the command ends or is interrupted.
