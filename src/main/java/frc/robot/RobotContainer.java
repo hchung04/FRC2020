@@ -7,11 +7,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.BallSucc;
  import frc.robot.commands.rotateCommand;
@@ -22,7 +25,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Joystick;
-
+import frc.robot.Constants.AutoConstants;
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -33,6 +36,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
+  private final DigitalInput limitSwitch= new DigitalInput(AutoConstants.switchPort);
   private final ArcadeDrive driveCommand = new ArcadeDrive(driveSubsystem, this::getLeftY, this::getLeftX);
 
   public static final XboxController m_driverController = new XboxController(0);
@@ -42,8 +46,8 @@ public class RobotContainer {
   private final BallSucc intakeCommand = new BallSucc(intakeSubsystem);
 
  private final ControlPanelSubsystem panelSubsytem = new ControlPanelSubsystem();
+ private final rotateCommand panelCommand = new rotateCommand(panelSubsytem);
 
-  private final rotateCommand panelCommand= new rotateCommand(panelSubsytem);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -73,7 +77,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return panelCommand;
+    return new SequentialCommandGroup(panelCommand);
   }
 
   public static XboxController getXboxController(){
@@ -87,5 +91,8 @@ public class RobotContainer {
   public double getLeftY() {
   return m_driverController.getY(Hand.kLeft);
 }
-
+  public void buttonPressed(){
+      boolean resultSwitch = !(limitSwitch.get());
+      System.out.println("Button Pressed: " + resultSwitch);
+  }
 }
