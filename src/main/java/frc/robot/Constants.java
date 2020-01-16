@@ -8,6 +8,7 @@
 package frc.robot;
 
 import java.io.IOException;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
@@ -26,4 +27,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    public static final class AutoConstants{
+        public static final double kDistance = 100;
+        public static final double kSpeed = 0.7;
+        public static final int switchPort = 8;
+    }
+
 }
