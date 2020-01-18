@@ -7,7 +7,9 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -65,7 +67,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    new JoystickButton(m_driverController, XboxController.Button.kA.value).whileHeld(intakeCommand);
+    new JoystickButton(m_driverController, XboxController.Button.kA.value).whenHeld(intakeCommand);
    new JoystickButton(m_driverController, XboxController.Button.kX.value).whenPressed(panelCommand);
   }
 
@@ -77,7 +79,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new SequentialCommandGroup(panelCommand);
+    return panelCommand; //SequentialCommandGroup(panelCommand, new WaitCommand(5),panelCommand);  //SequentialCommandGroup(panelCommand, new WaitCommand(10), panelCommand);
   }
 
   public static XboxController getXboxController(){
