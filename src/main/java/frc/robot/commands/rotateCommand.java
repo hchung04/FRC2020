@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class rotateCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ControlPanelSubsystem m_control;
+  private final ControlPanelSubsystem m_subsystem;
 
   /**
    * Creates a new ExampleCommand.
@@ -23,7 +23,7 @@ public class rotateCommand extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public rotateCommand(ControlPanelSubsystem subsystem) {
-    m_control = subsystem;
+    m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -32,26 +32,26 @@ public class rotateCommand extends CommandBase {
   @Override
   public void initialize() {
      //will rotate for one revolution
-     m_control.rotate(50);
-     System.out.println("DISTANCE: " + m_control.findDistance());
+     //m_control.rotate(50);
+     //System.out.println("DISTANCE: " + m_control.findDistance());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      
+    m_subsystem.spin();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_control.stop();
+    m_subsystem.stop();
   }
  
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.print("DISTANCE: " + m_control.findDistance());
-    return m_control.hasDoneRevolutions();
+    return false;
+   // System.out.println("DISTANCE: " + m_control.findDistance());
   }
 }
