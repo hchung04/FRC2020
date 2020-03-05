@@ -64,11 +64,11 @@ public class DriveSubsystem extends SubsystemBase {
 //ENCODERS:
 private Encoder m_leftEncoder =
       new Encoder(2, 3,
-                  false);
+                  false, Encoder.EncodingType.k2X);
 
 private Encoder m_rightEncoder =
  new Encoder(0, 1,
-  true);
+  true, Encoder.EncodingType.k2X);
   
 
 // The gyro sensor
