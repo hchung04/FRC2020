@@ -29,7 +29,7 @@ public class BallIntakeSubsystem extends SubsystemBase {
   public static final XboxController m_driverController = AutoConstants.m_driverController;
   private double lastSpeed = 0.0;
   private boolean stickPress = false;
-  private final BallSucc intakeCommand = new BallSucc(this);
+  private final BallIntake intakeCommand = new BallSucc(this);
 
 
   public BallIntakeSubsystem() {
