@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.commands.BallSucc;
+import frc.robot.commands.BallIntake;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -29,7 +29,7 @@ public class BallIntakeSubsystem extends SubsystemBase {
   public static final XboxController m_driverController = AutoConstants.m_driverController;
   private double lastSpeed = 0.0;
   private boolean stickPress = false;
-  private final BallIntake intakeCommand = new BallSucc(this);
+  private final BallIntake intakeCommand = new BallIntake(this);
 
 
   public BallIntakeSubsystem() {
