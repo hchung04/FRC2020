@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * An example command that uses an example subsystem.
  */
-public class BallSucc extends CommandBase {
+public class BallIntake extends CommandBase {
 
     private final BallIntakeSubsystem m_subsystem;
 
@@ -24,7 +24,7 @@ public class BallSucc extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public BallSucc(BallIntakeSubsystem subsystem) {
+  public BallIntake(BallIntakeSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
