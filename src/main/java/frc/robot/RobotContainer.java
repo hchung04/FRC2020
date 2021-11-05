@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.BallSucc;
+import frc.robot.commands.BallIntake;
  import frc.robot.commands.rotateCommand;
  import frc.robot.commands.ShootBallCommand;
  import frc.robot.commands.MovingDownCommand;
@@ -34,7 +34,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
  import frc.robot.subsystems.PnumadicSystem;
  import frc.robot.subsystems.ElevatorUpSubsystem;
  import frc.robot.subsystems.ElevatorDownSubsystem;
- import frc.robot.commands.BallStopSucc;
+ import frc.robot.commands.BallStopIntake;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -70,7 +70,7 @@ public class RobotContainer {
   private final ArcadeDrive driveCommand = new ArcadeDrive(driveSubsystem, this::getLeftY, this::getLeftX);
 
   private final BallIntakeSubsystem intakeSubsystem = new BallIntakeSubsystem();
-  private final BallSucc intakeCommand = new BallSucc(intakeSubsystem);
+  private final BallIntake intakeCommand = new BallIntake(intakeSubsystem);
 
   private static BallOuttakeSubsystem outtakeSubsystem = new BallOuttakeSubsystem();
   private static ShootBallCommand shootingCommand = new ShootBallCommand(outtakeSubsystem);
