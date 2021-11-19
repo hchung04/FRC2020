@@ -26,15 +26,15 @@ public class ElevatorDownSubsystem extends SubsystemBase {
 
   public void goDown(){
 
-    if(RobotContainer.getXboxController().getBumperPressed(Hand.kLeft)){
+    if(RobotContainer.getXboxController().getBackButtonPressed()){
       bumpPress = !bumpPress;
     }
 
     if(bumpPress){
-      SmartDashboard.putString("Bottom Elevator", "Forward");
+      SmartDashboard.putString("Bottom Elevator", "Reverse");
       m_bottom.set(-0.3);
     } else {
-      SmartDashboard.putString("Bottom Elevator", "Reverse");
+      SmartDashboard.putString("Bottom Elevator", "Forward");
       m_bottom.set(0.3);
     }
   }

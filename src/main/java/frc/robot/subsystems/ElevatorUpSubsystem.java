@@ -17,7 +17,6 @@ public class ElevatorUpSubsystem extends SubsystemBase {
   //Elevator Up Subsystem
   private PWMSparkMax m_top = new PWMSparkMax(AutoConstants.elevatorTop);
   private boolean bumpPress = false;
-  private String status = "Forward";
 
   public ElevatorUpSubsystem() {
   }
@@ -29,10 +28,10 @@ public class ElevatorUpSubsystem extends SubsystemBase {
     }
     //The bump press functions to reverse the motor.
     if(bumpPress){
-      SmartDashboard.putString("Top Elevator", "Forward");
+      SmartDashboard.putString("Top Elevator", "Reverse");
       m_top.set(0.3);
     } else {
-      SmartDashboard.putString("Top Elevator", "Reverse");
+      SmartDashboard.putString("Top Elevator", "Forward");
       m_top.set(-0.3);
     }
   }

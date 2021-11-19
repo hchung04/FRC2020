@@ -37,7 +37,7 @@ public class BallIntakeSubsystem extends SubsystemBase {
 
   public void ballTake() {
 
-    if(RobotContainer.getXboxController().getBumperPressed(Hand.kRight)){
+    if(RobotContainer.getXboxController().getStartButtonPressed()){
       stickPress = !stickPress;
     }
 
@@ -69,7 +69,9 @@ public class BallIntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    final double leftTriggerStatus = m_driverController.getTriggerAxis(Hand.kLeft);
+    //final double leftTriggerStatus = m_driverController.getTriggerAxis(Hand.kLeft);
+    final double leftTriggerStatus = RobotContainer.getXboxController().getTriggerAxis(Hand.kLeft);
+    System.out.println(leftTriggerStatus);
     if (Math.abs(leftTriggerStatus)>=0.75){
       CommandScheduler.getInstance().schedule(intakeCommand);
     } else if (Math.abs(leftTriggerStatus)<=0.75){

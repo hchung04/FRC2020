@@ -7,53 +7,29 @@
 
 package frc.robot;
 
-import java.util.List;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.BallSucc;
- import frc.robot.commands.rotateCommand;
- import frc.robot.commands.ShootBallCommand;
- import frc.robot.commands.MovingDownCommand;
- import frc.robot.commands.waitCommand;
- import frc.robot.commands.MovingUpCommand;
- import frc.robot.commands.rotateDriveCommand;
-import frc.robot.commands.updateLimelightTrackingLongCommand;
-import frc.robot.commands.driveCommand;
+import frc.robot.commands.MovingDownCommand;
+import frc.robot.commands.MovingUpCommand;
+import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.driveDistanceCommand;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.commands.rotateCommand;
+import frc.robot.commands.AutonomousShootBallCommand;
 import frc.robot.subsystems.BallIntakeSubsystem;
 import frc.robot.subsystems.BallOuttakeSubsystem;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
- import frc.robot.subsystems.ControlPanelSubsystem;
- import frc.robot.subsystems.PnumadicSystem;
- import frc.robot.subsystems.ElevatorUpSubsystem;
- import frc.robot.subsystems.ElevatorDownSubsystem;
- import frc.robot.commands.BallStopSucc;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.Constants.AutoConstants;
-
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Transform2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.PIDController;
+import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorDownSubsystem;
+import frc.robot.subsystems.ElevatorUpSubsystem;
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -104,8 +80,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(m_driverController, XboxController.Button.kY.value).whileHeld(movingDownCommand);
     new JoystickButton(m_driverController, XboxController.Button.kX.value).whileHeld(movingUpCommand);
-    new JoystickButton(m_driverController, XboxController.Button.kA.value).whileHeld(panelCommand);
-    new JoystickButton(m_driverController, XboxController.Button.kStart.value).whileHeld(panelCommand);
+    /*new JoystickButton(m_driverController, XboxController.Button.kA.value).whilePressed(shootingCommand);
+    new JoystickButton(m_driverController, XboxController.Button.kStart.value).whilePressed(shootingCommand);*/
     
 
   
@@ -145,7 +121,11 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
   
-    return new SequentialCommandGroup(new driveDistanceCommand(driveSubsystem, 72)); //new waitCommand(.2),new rotateDriveCommand(driveSubsystem, 90));
+    return new SequentialCommandGroup(
+      new driveDistanceCommand(driveSubsystem, 72),
+      new ParallelCommandGroup(new AutonomousShootBallCommand(outtakeSubsystem, 5))
+    );
+       //new waitCommand(.2),new rotateDriveCommand(driveSubsystem, 90));
   /** 
     // Create a voltage constraint to ensure we don't accelerate too fast
     var autoVoltageConstraint =

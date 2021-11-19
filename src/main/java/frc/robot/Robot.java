@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.SPI;
 import frc.robot.Constants.AutoConstants;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.util.Color;
@@ -49,6 +51,10 @@ public class Robot extends TimedRobot {
   private UsbCamera cam1;
   private VideoSink server;
   public static final Joystick m_joystick = AutoConstants.m_driverJoystick;
+  public static final XboxController m_xboxController = AutoConstants.m_driverController;
+
+  private boolean leftBumpPress = false;
+
  // public static final AHRS ahrs = new AHRS(SPI.Port.kMXP); 
  // private static final PowerDistributionPanel PDP = new PowerDistributionPanel(0);
  // public final Encoder m_leftDriveEncoder = new Encoder(0,1);
@@ -121,6 +127,15 @@ public class Robot extends TimedRobot {
       server.setSource(cam0);
     }else{
       server.setSource(cam1);
+    }
+
+    if(m_xboxController.getBumperPressed(Hand.kLeft) == true){
+      leftBumpPress = !leftBumpPress;
+    }
+    if(leftBumpPress){
+      SmartDashboard.putString("Bottom Elevator", "Forward");
+    } else {
+      SmartDashboard.putString("Bottom Elevator", "Reverse");
     }
 
     //CameraServer.getInstance().addServer("Server");
