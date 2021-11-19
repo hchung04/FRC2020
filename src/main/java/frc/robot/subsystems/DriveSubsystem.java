@@ -63,12 +63,12 @@ public class DriveSubsystem extends SubsystemBase {
   
 //ENCODERS:
 private Encoder m_leftEncoder =
-      new Encoder(2, 3,
-                  false, Encoder.EncodingType.k2X);
+      new Encoder(AutoConstants.kLeftEncoderPorts[0], AutoConstants.kLeftEncoderPorts[1],
+                  AutoConstants.kLeftEncoderReversed);
 
 private Encoder m_rightEncoder =
- new Encoder(0, 1,
-  true, Encoder.EncodingType.k2X);
+ new Encoder(AutoConstants.kRightEncoderPorts[0], AutoConstants.kRightEncoderPorts[1],
+  AutoConstants.kRightEncoderReversed);
   
 
 // The gyro sensor
@@ -89,15 +89,10 @@ private final DifferentialDriveOdometry m_odometry;
     m_right.setVoltage(-rightVolts);
     m_drive.feed();
   }
-  public void encoderReset(){
-    m_leftEncoder.reset();
-    m_rightEncoder.reset();
-  }
+
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
-  //Returns how far the robot has driven
-  //It has checks for the different motors in case one of them is no longer working.
   public double getDistance() {
     double left =  m_leftEncoder.getDistance();
     double right = m_rightEncoder.getDistance();
@@ -105,10 +100,8 @@ private final DifferentialDriveOdometry m_odometry;
       return 0;
     if(left==0)
         return right;
-    if(right==0){
-        System.out.println(left);
+    if(right==0)
         return left;
-      }
     return (left+right)/2;
   }
   public double getHeading() {
@@ -118,8 +111,8 @@ private final DifferentialDriveOdometry m_odometry;
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(ahrs.getYaw()));
     m_leftEncoder.setSamplesToAverage(3);
     m_rightEncoder.setSamplesToAverage(3);
-    m_leftEncoder.setDistancePerPulse(Math.PI*6/5/20);
-    m_rightEncoder.setDistancePerPulse(Math.PI*6/5/20);
+    m_leftEncoder.setDistancePerPulse(1.0 / 360.0 * 2.0 * Math.PI * 3);
+    m_rightEncoder.setDistancePerPulse(1.0 / 360.0 * 2.0 * Math.PI * 3);
     m_leftEncoder.setMinRate(0);
     m_rightEncoder.setMinRate(0);
     ahrs.reset();
@@ -130,7 +123,6 @@ private final DifferentialDriveOdometry m_odometry;
       public void arcadeDriveSimple(double y, double x){
         arcadeDrive(y , x , false);
       }
-
       public void arcadeDrive(double y, double x) {
         /*
         SmartDashboard.putNumber("RIGHT",m_rightEncoder.getDistance());
@@ -201,7 +193,13 @@ private final DifferentialDriveOdometry m_odometry;
           throttleMode = false;
         }
 
-        //System.out.println(bPressed);
+        System.out.println(bPressed);
+
+       
+
+        
+
+        
 
         if(bPressed){
           if(triggerPressed){
@@ -220,7 +218,7 @@ private final DifferentialDriveOdometry m_odometry;
           } else {
             arcadeDrive(y * -0.6, x * 0.6, false);
           }
-        }
+         }
 
           
           
@@ -258,7 +256,7 @@ private final DifferentialDriveOdometry m_odometry;
     public void orientToShoot(){
       int expectedAngle = 0;//need
       double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(1);
-      System.out.println("TX:" + tx);
+      System.out.println(tx);
       while (tx != expectedAngle){
           if (tx >= 0){
               m_left.set(.5);
@@ -280,15 +278,10 @@ private final DifferentialDriveOdometry m_odometry;
     public void updateLimelightTrackingShort(double y, double x){
       m_LimelightDriveCommand = y;
       m_LimelightSteerCommand = x;
-      //final double STEER_K = 0.07;
-      final double STEER_K = 0.04;
-      //final double DRIVE_K = 1.00;
-      final double DRIVE_K = 0.80;
-
+      final double STEER_K = 0.07;
+      final double DRIVE_K = 1.00;
       final double DESIRED_TARGET_ANGLE = 1.06;
       final double DESIRED_TARGET_AREA = 2.561;
-
-      final double MAX_SPEED = 0.4;
 
       double tv =NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(1);
       double tx =NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(1);
@@ -306,9 +299,6 @@ private final DifferentialDriveOdometry m_odometry;
         m_LimelightSteerCommand = (DESIRED_TARGET_ANGLE - tx) * STEER_K;
 
         m_LimelightDriveCommand = (DESIRED_TARGET_AREA - ta) * DRIVE_K;
-        if(m_LimelightDriveCommand > MAX_SPEED){
-          m_LimelightDriveCommand = MAX_SPEED;
-        }
 
         
       }
@@ -352,33 +342,6 @@ private final DifferentialDriveOdometry m_odometry;
     public void stop() {
       m_drive.arcadeDrive(0, 0);
     }
-    //ALL SORTS OF RAMSETE METHODS MOSTLY COPIED OFF DOCS
-    public double getTurnRate() {
-      return ahrs.getRate();
-    }
-    public void zeroHeading() {
-     ahrs.reset();
-    }
-    public void setMaxOutput(double maxOutput) {
-      m_drive.setMaxOutput(maxOutput);
-    }
-    public Encoder getRightEncoder() {
-      return m_rightEncoder;
-    }
-    public Encoder getLeftEncoder() {
-      return m_leftEncoder;
-    }
-    public double getAverageEncoderDistance() {
-      return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
-    }
-    public void resetEncoders() {
-      m_leftEncoder.reset();
-      m_rightEncoder.reset();
-    }
-  public void resetOdometry(Pose2d pose) {
-    resetEncoders();
-    m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
-  }
   @Override
   public void periodic() {
       // Update the odometry in the periodic block

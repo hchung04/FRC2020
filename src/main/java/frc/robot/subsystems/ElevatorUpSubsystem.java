@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ElevatorUpSubsystem extends SubsystemBase {
   //Elevator Up Subsystem
@@ -28,10 +27,10 @@ public class ElevatorUpSubsystem extends SubsystemBase {
     }
     //The bump press functions to reverse the motor.
     if(bumpPress){
-      SmartDashboard.putString("Top Elevator", "Reverse");
+      System.out.println("Reverse");
       m_top.set(0.3);
     } else {
-      SmartDashboard.putString("Top Elevator", "Forward");
+      System.out.println("Forward");
       m_top.set(-0.3);
     }
   }

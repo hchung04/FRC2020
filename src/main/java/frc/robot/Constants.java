@@ -9,7 +9,7 @@ package frc.robot;
 
 import java.io.IOException;
 import java.util.function.DoubleSupplier;
-import edu.wpi.first.wpilibj.util.Units;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Notifier;
@@ -62,30 +62,30 @@ public final class Constants {
 
 
         //BEN DRIVE CONSTANTS
-        public static final double ksVolts=0.814;
-        public static final double kvVoltSecondsPerMeter=0.0486;
-        public static final double kaVoltSecondsSquaredPerMeter=0.00652;
+        public static final double ksVolts=5;
+        public static final double kvVoltSecondsPerMeter=5;
+        public static final double kaVoltSecondsSquaredPerMeter=5;
     
 
-        public static final double kPDriveVel=0.302;
+        public static final double kPDriveVel=5;
 
-        public static final double kTrackwidthMeters = 0.3;
+        public static final double kTrackwidthMeters = 0.55;
         public static final DifferentialDriveKinematics kDriveKinematics =
         new DifferentialDriveKinematics(kTrackwidthMeters);
 
-        public static final double kMaxSpeedMetersPerSecond = .25;
-        public static final double kMaxAccelerationMetersPerSecondSquared = .3;
+        public static final double kMaxSpeedMetersPerSecond=5 ;
+        public static final double kMaxAccelerationMetersPerSecondSquared=5;
 
         // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
 
-        public static final int[] kLeftEncoderPorts= {2,3};
-        public static final int[] kRightEncoderPorts= {0,1};
+        public static final int[] kLeftEncoderPorts= {0,1};
+        public static final int[] kRightEncoderPorts= {2,3};
         public static final boolean kLeftEncoderReversed = false;
-        public static final boolean kRightEncoderReversed = true;
+        public static final boolean kRightEncoderReversed = false;
 
-        public static final double kEncoderDistancePerPulse=Units.inchesToMeters(1.0 / 360.0 * 2.0 * Math.PI * 3);;
+        public static final double kEncoderDistancePerPulse=5;
     }
 
 }

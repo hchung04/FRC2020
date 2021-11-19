@@ -17,7 +17,6 @@ import frc.robot.commands.BallIntake;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.smartdashboard.SmartDashboard;
 
 public class BallIntakeSubsystem extends SubsystemBase {
   /**
@@ -37,16 +36,14 @@ public class BallIntakeSubsystem extends SubsystemBase {
 
   public void ballTake() {
 
-    if(RobotContainer.getXboxController().getStartButtonPressed()){
+    if(RobotContainer.getXboxController().getBumperPressed(Hand.kRight)){
       stickPress = !stickPress;
     }
 
     if(stickPress){
-      SmartDashboard.putString("Intake", "In");
       System.out.println("Reverse");
       m_Intake.set(-0.7);
     } else {
-      SmartDashboard.putString("Intake", "In");
       System.out.println("Forward");
       m_Intake.set(0.7);
     }
@@ -69,9 +66,7 @@ public class BallIntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //final double leftTriggerStatus = m_driverController.getTriggerAxis(Hand.kLeft);
-    final double leftTriggerStatus = RobotContainer.getXboxController().getTriggerAxis(Hand.kLeft);
-    System.out.println(leftTriggerStatus);
+    final double leftTriggerStatus = m_driverController.getTriggerAxis(Hand.kLeft);
     if (Math.abs(leftTriggerStatus)>=0.75){
       CommandScheduler.getInstance().schedule(intakeCommand);
     } else if (Math.abs(leftTriggerStatus)<=0.75){

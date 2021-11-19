@@ -10,25 +10,20 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
-import frc.robot.Constants.AutoConstants;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import frc.robot.Constants.AutoConstants;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.cscore.VideoSink;
-import edu.wpi.cscore.VideoSource.ConnectionStrategy;;
-
+import edu.wpi.cscore.MjpegServer;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -36,7 +31,6 @@ import edu.wpi.cscore.VideoSource.ConnectionStrategy;;
  * project.
  */
 public class Robot extends TimedRobot {
-  private boolean camButton = false;
   private Command m_autonomousCommand;
   private  RobotContainer m_robotContainer;
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
@@ -47,13 +41,6 @@ public class Robot extends TimedRobot {
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
   private final AHRS ahrs = new AHRS(SPI.Port.kMXP); 
-  private UsbCamera cam0;
-  private UsbCamera cam1;
-  private VideoSink server;
-  public static final Joystick m_joystick = AutoConstants.m_driverJoystick;
-  public static final XboxController m_xboxController = AutoConstants.m_driverController;
-
-  private boolean leftBumpPress = false;
 
  // public static final AHRS ahrs = new AHRS(SPI.Port.kMXP); 
  // private static final PowerDistributionPanel PDP = new PowerDistributionPanel(0);
@@ -65,21 +52,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() { 
-    
-    
-      //This defines the camera.
-      //An issue was that they both had to be plugged into the first USB port on the roborio through a USB hub
-      //We also set the FPS and the resolution of each of the cameras.
-      //To troubleshoot, one can SSH into the RoboRio, go to /dev and do "ls | grep "video""
-      cam0 = CameraServer.getInstance().startAutomaticCapture(0);
-      cam0.setFPS(15);
-      cam0.setResolution(320,240);
-      cam1 = CameraServer.getInstance().startAutomaticCapture(1);
-      cam1.setFPS(15);
-      cam1.setResolution(320,240);
-      server = CameraServer.getInstance().getServer();
 
-      
+    
+  
+    CameraServer.getInstance().startAutomaticCapture(0);
+      CameraServer.getInstance().startAutomaticCapture(1);
+      CameraServer.getInstance().putVideo("Video Streams", 680, 640);
+      System.out.println("HI");
     
     m_robotContainer = new RobotContainer();
     
@@ -99,7 +78,9 @@ public class Robot extends TimedRobot {
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
     m_colorMatcher.addColorMatch(kRedTarget);
-    m_colorMatcher.addColorMatch(kYellowTarget);*/
+    m_colorMatcher.addColorMatch(kYellowTarget);
+    UsbCamera cameraZero;
+    cameraZero = CameraServer.getInstance().startAutomaticCapture();*/
   }
 
   /**
@@ -111,33 +92,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-
-    //This will toggle the camera streams depending on whether or not a button on the joystick is pressed.
-    //if one wanted three cameras, then the boolean camButton can be replaced with an int that wraps around
-    //Button two is the button the thumb falls on when pressing t
-    if(m_joystick.getRawButton(2)){
-      camButton = !camButton;
-    }
-    if(m_joystick.getRawButton(7))
-        camButton=true;
-    if(m_joystick.getRawButton(8))
-      camButton=false;
-    //This will change the source beteen the two cameras
-    if(camButton){
-      server.setSource(cam0);
-    }else{
-      server.setSource(cam1);
-    }
-
-    if(m_xboxController.getBumperPressed(Hand.kLeft) == true){
-      leftBumpPress = !leftBumpPress;
-    }
-    if(leftBumpPress){
-      SmartDashboard.putString("Bottom Elevator", "Forward");
-    } else {
-      SmartDashboard.putString("Bottom Elevator", "Reverse");
-    }
-
     //CameraServer.getInstance().addServer("Server");
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,

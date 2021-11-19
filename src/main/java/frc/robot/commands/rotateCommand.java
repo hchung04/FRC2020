@@ -8,13 +8,12 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ControlPanelSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class rotateCommand extends CommandBase implements Command {
+public class rotateCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ControlPanelSubsystem m_subsystem;
 

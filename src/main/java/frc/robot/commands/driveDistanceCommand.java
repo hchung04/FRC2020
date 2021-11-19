@@ -32,7 +32,6 @@ public class driveDistanceCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.encoderReset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,7 +49,6 @@ public class driveDistanceCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println(m_subsystem.getDistance());
     return m_subsystem.getDistance()>=d;
   }
 }

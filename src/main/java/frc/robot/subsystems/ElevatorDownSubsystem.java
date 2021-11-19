@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.AutoConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ElevatorDownSubsystem extends SubsystemBase {
   /**
@@ -26,15 +25,15 @@ public class ElevatorDownSubsystem extends SubsystemBase {
 
   public void goDown(){
 
-    if(RobotContainer.getXboxController().getBackButtonPressed()){
+    if(RobotContainer.getXboxController().getBumperPressed(Hand.kLeft)){
       bumpPress = !bumpPress;
     }
 
     if(bumpPress){
-      SmartDashboard.putString("Bottom Elevator", "Reverse");
+      System.out.println("Reverse");
       m_bottom.set(-0.3);
     } else {
-      SmartDashboard.putString("Bottom Elevator", "Forward");
+      System.out.println("Forward");
       m_bottom.set(0.3);
     }
   }
