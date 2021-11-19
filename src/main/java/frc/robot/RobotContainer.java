@@ -46,7 +46,7 @@ public class RobotContainer {
   private final ArcadeDrive driveCommand = new ArcadeDrive(driveSubsystem, this::getLeftY, this::getLeftX);
 
   private final BallIntakeSubsystem intakeSubsystem = new BallIntakeSubsystem();
-  private final BallSucc intakeCommand = new BallSucc(intakeSubsystem);
+  private final BallIntake intakeCommand = new BallIntake(intakeSubsystem);
 
   private static BallOuttakeSubsystem outtakeSubsystem = new BallOuttakeSubsystem();
   private static ShootBallCommand shootingCommand = new ShootBallCommand(outtakeSubsystem);
