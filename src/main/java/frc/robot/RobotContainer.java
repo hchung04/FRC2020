@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.BallSucc;
+import frc.robot.commands.BallIntake;
 import frc.robot.commands.MovingDownCommand;
 import frc.robot.commands.MovingUpCommand;
 import frc.robot.commands.ShootBallCommand;
